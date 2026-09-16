@@ -39,6 +39,18 @@ class Pokemon {
     required this._captureDate
   });
 
+  factory Pokemon.fromPokeApiData(Map<String, dynamic> json) => Pokemon(
+    name: json['name'] as String,
+    id: json['id'] as int,
+    height: json['height'] / 10 as double,
+    weight: json['weight'] / 10 as double,
+    baseExperience: json['base_experience'] as int,
+    types: (json['types'] as List<dynamic>)
+      .map((type) => type['type']['name'] as String)
+      .toList(),
+    captureDate: DateTime.now()
+  );
+
   String get name {
     return _name;
   }

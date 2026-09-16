@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:assignment_01/services/services/pokemon_api.dart' as pokemon_api;
+import 'package:assignment_01/services/pokemon_api.dart' as pokemon_api;
 
 // Generate mock for http.Client
 
