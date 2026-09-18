@@ -21,23 +21,31 @@ class Pokemon {
     "fairy"
   ];
 
-  String _name;
-  int _id;
-  double _height;
-  double _weight;
-  int _baseExperience;
-  List<String> _types;
-  DateTime _captureDate;
+  late String _name;
+  late int _id;
+  late double _height;
+  late double _weight;
+  late int _baseExperience;
+  late List<String> _types;
+  late DateTime _captureDate;
 
   Pokemon({
-    required this._name,
-    required this._id,
-    required this._height,
-    required this._weight,
-    required this._baseExperience,
-    required this._types,
-    required this._captureDate
-  });
+    required String name,
+    required int id,
+    required double height,
+    required double weight,
+    required int baseExperience,
+    required List<String> types,
+    required DateTime captureDate,
+    }) {
+      this.name = name;
+      this.id = id;
+      this.height = height;
+      this.weight = weight;
+      this.baseExperience = baseExperience;
+      this.types = types;
+      this.captureDate = captureDate;
+  }
 
   factory Pokemon.fromPokeApiData(Map<String, dynamic> json) => Pokemon(
     name: json['name'] as String,
@@ -50,6 +58,17 @@ class Pokemon {
       .toList(),
     captureDate: DateTime.now()
   );
+
+  void _validatePokemonType (String type) {
+    if (!_validPokemonTypes.contains(type)) {
+      throw Exception('Invalid Pokemon type: $type');
+    }
+  }
+
+  @override
+  String toString() {
+    return "Pokemon: $_name (#$_id), Type(s): $_types, Height: ${_height}m, Weight: ${_weight}kg, Base Experience: $_baseExperience, Captured: ${_captureDate.toString()}";
+  }
 
   String get name {
     return _name;
@@ -68,7 +87,7 @@ class Pokemon {
   }
 
   set id(int value) {
-    if (value < 0) {
+    if (value <= 0) {
       throw Exception('Pokemon ID must be positive');
     }
 
@@ -121,9 +140,7 @@ class Pokemon {
     }
 
     for (String type in value) {
-      if (!_validPokemonTypes.contains(type)) {
-        throw Exception('Invalid Pokemon type: <$type>');
-      }
+      _validatePokemonType(type);
     }
 
     _types = value;
